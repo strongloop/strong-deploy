@@ -1,0 +1,32 @@
+{
+  "name": "strong-deploy",
+  "description": "Deploy a node application to a StrongLoop process manager",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/strongloop/strong-deploy.git"
+  },
+  "author": "Krishna Raman <kraman@strongloop.com>",
+  "license": {
+    "name": "Dual MIT/StrongLoop",
+    "url": "https://github.com/strongloop/strong-deploy/blob/master/LICENSE.md"
+  },
+  "readmeFilename": "README.md",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap --timeout=300 ./test/test-*.js"
+  },
+  "bin": {
+    "sl-deploy": "./bin/sl-deploy.js"
+  },
+  "dependencies": {
+    "debug": "^0.8.1",
+    "shelljs": "^0.3.0",
+    "posix-getopt": "^1.0.0"
+  },
+  "devDependencies": {
+    "tap": "^0.4.9",
+    "cicada": "^1.1.1",
+    "async": "^0.9.0"
+  }
+}
