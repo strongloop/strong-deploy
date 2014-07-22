@@ -67,11 +67,6 @@ exports.deploy = function deploy(argv, callback) {
   var error;
   var branch;
 
-  branch = getCurrentBranch();
-  if (branch instanceof Error) {
-    callback(branch);
-  }
-
   while ((option = parser.getopt()) !== undefined) {
     switch (option.option) {
       case 'v':
@@ -95,6 +90,12 @@ exports.deploy = function deploy(argv, callback) {
     return callback(Error('usage'));
   }
 
+  branch = branch || getCurrentBranch();
+  if (branch instanceof Error) {
+    console.error(branch.message);
+    callback(branch);
+  }
+
   if (!isValidBranch(branch)) {
     console.error('Branch `%s` is not available in this repository', branch);
     return callback(Error('invalid branch'));
@@ -109,8 +110,10 @@ exports.deploy = function deploy(argv, callback) {
   doGitPush(deployURL, branch, function(er, p) {
     if (er) {
       console.error('Deployment unsuccessful');
+      callback(Error('Deployment unsuccessful'));
     } else {
       console.log('Deployed branch `%s` to `%s`', branch, deployURL);
+      callback();
     }
   });
 };
