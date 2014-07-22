@@ -1,7 +1,7 @@
 {
   "name": "strong-deploy",
   "description": "Deploy a node application to a StrongLoop process manager",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/strongloop/strong-deploy.git"
