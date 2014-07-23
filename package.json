@@ -8,7 +8,7 @@
   },
   "author": "Krishna Raman <kraman@strongloop.com>",
   "license": {
-    "name": "Dual MIT/StrongLoop",
+    "name": "Dual Artistic/StrongLoop",
     "url": "https://github.com/strongloop/strong-deploy/blob/master/LICENSE.md"
   },
   "readmeFilename": "README.md",
