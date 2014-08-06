@@ -1,7 +1,7 @@
 var http = require('http');
 var cicada = require('cicada');
 var shell = require('shelljs');
-var child_process = require('child_process');
+var childProcess = require('child_process');
 var assert = require('assert');
 var getCurrentBranch = require('../index.js')._getCurrentBranch;
 
@@ -25,9 +25,9 @@ ci.once('commit', function(commit) {
 });
 
 server.once('listening', function() {
-  var deploy = child_process.fork(
+  childProcess.fork(
     require.resolve('../bin/sl-deploy'),
-    ['--branch', pushBranch, 'http://localhost:5255/repo2']
+    ['--config', 'repo2', 'http://localhost:5255', pushBranch]
   );
 });
 
