@@ -3,7 +3,7 @@ var cicada = require('cicada');
 var shell = require('shelljs');
 var childProcess = require('child_process');
 var assert = require('assert');
-var getCurrentBranch = require('../index.js')._getCurrentBranch;
+var getCurrentBranch = require('../lib/git.js')._getCurrentBranch;
 
 shell.rm('-rf', '.test_artifacts');
 var ci = cicada('.test_artifacts');

@@ -1,13 +1,12 @@
-var assert = require('assert');
-var debug = require('debug')('strong-deploy');
 var Parser = require('posix-getopt').BasicParser;
 var path = require('path');
 var shell = require('shelljs');
-var util = require('util');
-var url = require('url');
+
+var performGitDeployment = require('./lib/git').performGitDeployment;
+var performHttpPutDeployment = require('./lib/put-file').performHttpPutDeployment;
 
 function printHelp($0, prn) {
-  prn('usage: %s [options] URL [BRANCH]', $0);
+  prn('usage: %s [options] URL [PACK|BRANCH]', $0);
   prn('');
   prn('Deploy a node application to a StrongLoop process manager');
   prn('');
@@ -21,41 +20,11 @@ function printHelp($0, prn) {
   prn('Arguments:');
   prn('  URL       The URL of the StrongLoop process manager');
   prn('            eg: http://127.0.0.1:7777');
+  prn('  PACK      NPM package tarball to deploy.');
   prn('  BRANCH    Deploy a specified branch.');
   prn('            (default: deploy)');
 }
 
-function getCurrentBranch() {
-  var output = shell.exec('git symbolic-ref --short HEAD', {silent: true});
-  if (output.code !== 0) {
-    return Error('This directory does not contain a valid git repository');
-  }
-  return output.output.trim();
-}
-
-function isValidBranch(branchName) {
-  var output = shell.exec(
-    util.format('git rev-parse --abbrev-ref %s', branchName),
-    {silent: true});
-  return output.code === 0;
-}
-
-function isValidGitURL(url) {
-  var output = shell.exec(
-    util.format('git ls-remote %s', url),
-    {silent: true});
-  return output.code === 0;
-}
-
-function doGitPush(gitURL, branch, redeploy, callback) {
-  var force = redeploy ? '-f' : '';
-  shell.exec(
-    util.format('git push %s %s %s:%s', force, gitURL, branch, branch),
-    callback);
-}
-
-// for unit tests
-exports._getCurrentBranch = getCurrentBranch;
 exports.deploy = function deploy(argv, callback) {
   var $0 = process.env.SLC_COMMAND ?
     'slc ' + process.env.SLC_COMMAND :
@@ -63,13 +32,12 @@ exports.deploy = function deploy(argv, callback) {
   var parser = new Parser([
       ':v(version)',
       'h(help)',
-      'c:(config)'
+      'c:(config)',
     ].join(''),
     argv);
   var option;
-  var error;
   var config = 'default';
-  var branch = 'deploy';
+  var branchOrPack;
   var redeploy = false;
 
   while ((option = parser.getopt()) !== undefined) {
@@ -83,8 +51,12 @@ exports.deploy = function deploy(argv, callback) {
       case 'c':
         config = option.optarg;
         break;
+      case 'p':
+        npmPkg = option.optarg;
+        break;
       case 'r':
         redeploy = true;
+        break;
       default:
         console.error('Invalid usage (near option \'%s\'), try `%s --help`.',
           option.optopt, $0);
@@ -97,31 +69,27 @@ exports.deploy = function deploy(argv, callback) {
     console.error('Invalid usage, try `%s --help`.', $0);
     return callback(Error('usage'));
   }
-  
+
   config = config || 'default';
-  var deployURL = argv[parser.optind()] + "/" + config;
+
+  var baseURL = argv[parser.optind()];
   if (numArgs === 2) {
-    branch = argv[parser.optind()+1];
+    branchOrPack = argv[parser.optind() + 1];
   }
+  branchOrPack = branchOrPack || 'deploy';
 
-  branch = branch || 'deploy'
-  if (!isValidBranch(branch)) {
-    console.error('Branch `%s` is not available in this repository', branch);
-    return callback(Error('invalid branch'));
-  }
-
-  if (!isValidGitURL(deployURL)) {
-    console.error('URL `%s` is not valid', deployURL);
-    return callback(Error('invalid url'));
-  }
-
-  doGitPush(deployURL, branch, redeploy, function(er, p) {
+  function cb(er) {
     if (er) {
-      console.error('Deployment unsuccessful');
       callback(Error('Deployment unsuccessful'));
     } else {
-      console.log('Deployed branch `%s` to `%s`', branch, deployURL);
+      console.log('Deployed `%s` to `%s`', branchOrPack, baseURL);
       callback();
     }
-  });
+  }
+
+  if (shell.test('-f', path.resolve(branchOrPack))) {
+    performHttpPutDeployment(baseURL, config, branchOrPack, cb);
+  } else {
+    performGitDeployment(baseURL, config, branchOrPack, redeploy, cb);
+  }
 };

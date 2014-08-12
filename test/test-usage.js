@@ -19,7 +19,7 @@ function expectError(er) {
   if (er) {
     return null;
   }
-  return new Error('expected error');
+  return Error('expected error');
 }
 
 // argv [0] and [1] are ignored (they are node and script name, not options)

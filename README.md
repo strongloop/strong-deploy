@@ -5,7 +5,7 @@ Deploy a node application package built using [strong-build](http://github.com/s
 ## Usage
 
 ```
-usage: sl-deploy [options] URL [BRANCH]
+usage: sl-deploy.js [options] URL [PACK|BRANCH]
 
 Deploy a node application to a StrongLoop process manager
 
@@ -19,6 +19,7 @@ Options:
 Arguments:
   URL       The URL of the StrongLoop process manager
             eg: http://127.0.0.1:7777
+  PACK      NPM package tarball to deploy.
   BRANCH    Deploy a specified branch.
             (default: deploy)
 ```
