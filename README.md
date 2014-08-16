@@ -14,7 +14,6 @@ Options:
   -v,--version       Print version and exit.
   -c,--config CFG    Deploy a specified configuration.
                      (default: default)
-  -r,--redeploy      Redeploy branch, even if has been deployed before.
 
 Arguments:
   URL       The URL of the StrongLoop process manager

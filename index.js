@@ -15,7 +15,6 @@ function printHelp($0, prn) {
   prn('  -v,--version       Print version and exit.');
   prn('  -c,--config CFG    Deploy a specified configuration.');
   prn('                     (default: default)');
-  prn('  -r,--redeploy      Redeploy branch, even if has been deployed before.');
   prn('');
   prn('Arguments:');
   prn('  URL       The URL of the StrongLoop process manager');
@@ -38,7 +37,6 @@ exports.deploy = function deploy(argv, callback) {
   var option;
   var config = 'default';
   var branchOrPack;
-  var redeploy = false;
 
   while ((option = parser.getopt()) !== undefined) {
     switch (option.option) {
@@ -53,9 +51,6 @@ exports.deploy = function deploy(argv, callback) {
         break;
       case 'p':
         npmPkg = option.optarg;
-        break;
-      case 'r':
-        redeploy = true;
         break;
       default:
         console.error('Invalid usage (near option \'%s\'), try `%s --help`.',
@@ -90,6 +85,6 @@ exports.deploy = function deploy(argv, callback) {
   if (shell.test('-f', path.resolve(branchOrPack))) {
     performHttpPutDeployment(baseURL, config, branchOrPack, cb);
   } else {
-    performGitDeployment(baseURL, config, branchOrPack, redeploy, cb);
+    performGitDeployment(baseURL, config, branchOrPack, cb);
   }
 };
