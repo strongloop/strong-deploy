@@ -13,15 +13,15 @@ function printHelp($0, prn) {
   prn('Options:');
   prn('  -h,--help          Print this message and exit.');
   prn('  -v,--version       Print version and exit.');
-  prn('  -c,--config CFG    Deploy a specified configuration.');
-  prn('                     (default: default)');
+  prn('  -c,--config CFG    Deploy a specified configuration (default is "default").');
   prn('');
   prn('Arguments:');
   prn('  URL       The URL of the StrongLoop process manager');
   prn('            eg: http://127.0.0.1:7777');
-  prn('  PACK      NPM package tarball to deploy.');
-  prn('  BRANCH    Deploy a specified branch.');
-  prn('            (default: deploy)');
+  prn('  PACK      Deploy an NPM package/tarball.');
+  prn('  BRANCH    Deploy a git branch.');
+  prn('');
+  prn('Default behaviour is to deploy the git branch "deploy".');
 }
 
 exports.deploy = function deploy(argv, callback) {
