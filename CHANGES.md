@@ -1,3 +1,15 @@
+2014-08-21, Version 0.1.3
+=========================
+
+ * usage: clarify pack and branch meaning (Sam Roberts)
+
+ * Remove --redeploy and make git always force push (Krishna Raman)
+
+ * Add ability to deploy npm package (tarball) (Krishna Raman)
+
+ * Add usage enhancements (Krishna Raman)
+
+
 2014-08-05, Version 0.1.2
 =========================
 
