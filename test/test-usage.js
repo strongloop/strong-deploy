@@ -1,7 +1,6 @@
 var assert = require('assert');
 var async = require('async');
 var debug = require('debug')('strong-deploy:test');
-var path = require('path');
 
 require('shelljs/global');
 
@@ -19,9 +18,8 @@ process.on('exit', function(code) {
 function expectError(er) {
   if (er) {
     return null;
-  } else {
-    return Error('expected error');
   }
+  return Error('expected error');
 }
 
 // argv [0] and [1] are ignored (they are node and script name, not options)
@@ -38,9 +36,11 @@ async.parallel([
     });
   },
   function(callback) {
-    deploy(['', '', '--branch', 'no-such-branch', 'http://some-invalid-repo'], function(er) {
-      return callback(expectError(er));
-    });
+    deploy(['', '', 'http://some-invalid-repo', 'no-such-branch'],
+      function(er) {
+        return callback(expectError(er));
+      }
+    );
   },
   function(callback) {
     deploy(['', '', 'http://some-invalid-repo'], function(er) {
