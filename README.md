@@ -1,10 +1,16 @@
 # strong-deploy
 
-Deploy a node application package built using [strong-build](http://github.com/strongloop/strong-build) on a [StrongLoop process manager](http://github.com/strongloop/strong-pm).
+Deploy a node application package to a
+[StrongLoop process manager](http://github.com/strongloop/strong-pm).
+
+Both git branches and npm packages can be deployed. They will typically be
+prepared using [strong-build](http://github.com/strongloop/strong-build).
+
 
 ## Usage
 
 ```
+usage: slc deploy [options] URL [PACK|BRANCH]
 usage: sl-deploy [options] URL [PACK|BRANCH]
 
 Deploy a node application to a StrongLoop process manager
