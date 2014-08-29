@@ -2,6 +2,19 @@
   "name": "strong-deploy",
   "description": "Deploy a node application to a StrongLoop process manager",
   "version": "0.1.3",
+  "keywords": [
+    "StrongLoop",
+    "build",
+    "bundle",
+    "dependencies",
+    "deploy",
+    "git",
+    "heroku",
+    "npm",
+    "openshift",
+    "pm",
+    "slc"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/strongloop/strong-deploy.git"
