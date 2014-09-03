@@ -1,7 +1,7 @@
 {
   "name": "strong-deploy",
   "description": "Deploy a node application to a StrongLoop process manager",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "keywords": [
     "StrongLoop",
     "build",
