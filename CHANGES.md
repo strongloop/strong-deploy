@@ -1,3 +1,11 @@
+2014-09-02, Version 0.1.4
+=========================
+
+ * package: mention slc in usage, and git package (Sam Roberts)
+
+ * package: add keywords for npm search (Sam Roberts)
+
+
 2014-08-21, Version 0.1.3
 =========================
 
