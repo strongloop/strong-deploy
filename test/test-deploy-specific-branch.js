@@ -9,7 +9,7 @@ shell.rm('-rf', '.test_artifacts');
 var ci = cicada('.test_artifacts');
 var server = http.createServer(ci.handle);
 var ok = false;
-var currentBranch = getCurrentBranch();
+var currentBranch = getCurrentBranch(process.cwd());
 assert(!(currentBranch instanceof Error));
 
 var pushBranch = 'production';
