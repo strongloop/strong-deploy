@@ -37,9 +37,6 @@ while ((option = parser.getopt()) !== undefined) {
     case 'c':
       config = option.optarg;
       break;
-    case 'p':
-      npmPkg = option.optarg;
-      break;
     default:
       console.error('Invalid usage (near option \'%s\'), try `%s --help`.',
         option.optopt,
