@@ -20,11 +20,13 @@ var parser = new Parser([
     ':v(version)',
     'h(help)',
     'c:(config)',
+    'L(local)', // Undocumented for now, just for local testing
   ].join(''),
   argv);
 var option;
 var config = 'default';
 var branchOrPack;
+var local;
 
 while ((option = parser.getopt()) !== undefined) {
   switch (option.option) {
@@ -36,6 +38,9 @@ while ((option = parser.getopt()) !== undefined) {
       return exit();
     case 'c':
       config = option.optarg;
+      break;
+    case 'L':
+      local = true;
       break;
     default:
       console.error('Invalid usage (near option \'%s\'), try `%s --help`.',
@@ -57,7 +62,10 @@ if (numArgs === 2) {
 }
 branchOrPack = branchOrPack || 'deploy';
 
-deploy(process.cwd(), baseURL, branchOrPack, config, exit);
+if (!local)
+  deploy(process.cwd(), baseURL, branchOrPack, config, exit);
+else
+  deploy.local(baseURL, branchOrPack, config, exit);
 
 function exit(err) {
   if (!err) {

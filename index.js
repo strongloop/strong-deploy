@@ -3,8 +3,11 @@ var shell = require('shelljs');
 
 var performGitDeployment = require('./lib/git').performGitDeployment;
 var performHttpPutDeployment = require('./lib/put-file').performHttpPutDeployment;
+var performLocalDeployment = require('./lib/post-json').performLocalDeployment;
 
 module.exports = deploy;
+module.exports.local = performLocalDeployment;
+
 /**
  * Deploy a NPM pack or GIT branch to a strong-pm service
  *
