@@ -1,3 +1,15 @@
+2014-12-01, Version 1.1.0
+=========================
+
+ * Support local in-place deployment (Sam Roberts)
+
+ * Fix incorrect error reporting for put based deploy (Krishna Raman)
+
+ * Fix test and noisy console output for git deploys (Krishna Raman)
+
+ * Enable strong-deploy to be used as a module (Krishna Raman)
+
+
 2014-10-02, Version 1.0.0
 =========================
 
@@ -12,7 +24,7 @@
  * package: add keywords for npm search (Sam Roberts)
 
 
-2014-08-21, Version 0.1.3
+2014-08-26, Version 0.1.3
 =========================
 
  * usage: clarify pack and branch meaning (Sam Roberts)
@@ -33,15 +45,12 @@
 
 
 2014-07-21, Version 0.1.1
+=========================
 
-* Fix silent exit when run from non git repo (Krishna Raman)
+ * Fix silent exit when run from non git repo (Krishna Raman)
 
 
 2014-07-21, Version 0.1.0
+=========================
 
-* Initial commit of code and tests (Krishna Raman)
-
-* Add contributing and license docs (Krishna Raman)
-
-* Initial commit (Krishna Raman)
-
+ * First release!
