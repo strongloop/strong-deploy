@@ -1,13 +1,16 @@
 var assert = require('assert');
-var childProcess = require('child_process');
 var cicada = require('cicada');
 var debug = require('debug')('test');
 var http = require('http');
 var shell = require('shelljs');
+var path = require('path');
+
+var performGitDeployment = require('../lib/git').performGitDeployment;
 
 shell.exec('git branch deploy');
-shell.rm('-rf', '.test_artifacts');
-var ci = cicada('.test_artifacts');
+var artifactDir = path.join(__dirname, '.test_artifacts');
+shell.rm('-rf', artifactDir);
+var ci = cicada(artifactDir);
 var server = http.createServer(ci.handle);
 var ok = false;
 
@@ -22,10 +25,14 @@ ci.once('commit', function(commit) {
 
 server.once('listening', function() {
   debug('Server started at: %j', server.address());
-  childProcess.fork(
-    require.resolve('../bin/sl-deploy'),
-    ['http://127.0.0.1:' + server.address().port]
-  );
+  var workingDir = __dirname;
+  var baseUrl = 'http://127.0.0.1:' + server.address().port;
+  process.chdir('/tmp');
+
+  debug('workingDir: %s', workingDir);
+  performGitDeployment(workingDir, baseUrl, 'default', 'deploy', function(err) {
+    assert.ifError(err);
+  });
 });
 
 server.listen(0);
