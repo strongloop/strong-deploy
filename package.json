@@ -33,7 +33,7 @@
     "sl-deploy": "./bin/sl-deploy.js"
   },
   "dependencies": {
-    "debug": "^0.8.1",
+    "debug": "^2.0.0",
     "shelljs": "^0.3.0",
     "posix-getopt": "^1.0.0"
   },
