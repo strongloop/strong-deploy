@@ -32,10 +32,10 @@ while ((option = parser.getopt()) !== undefined) {
   switch (option.option) {
     case 'v':
       console.log(require('../package.json').version);
-      return exit();
+      process.exit(0);
     case 'h':
       printHelp($0, console.log);
-      return exit();
+      process.exit(0);
     case 'c':
       config = option.optarg;
       break;
@@ -46,14 +46,14 @@ while ((option = parser.getopt()) !== undefined) {
       console.error('Invalid usage (near option \'%s\'), try `%s --help`.',
         option.optopt,
         $0);
-      return exit(Error('usage'));
+      process.exit(1);
   }
 }
 
 var numArgs = argv.length - parser.optind();
 if (numArgs < 1 || numArgs > 2) {
   console.error('Invalid usage, try `%s --help`.', $0);
-  return exit(Error('usage'));
+  process.exit(1);
 }
 
 var baseURL = argv[parser.optind()];
