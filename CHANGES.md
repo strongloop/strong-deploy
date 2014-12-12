@@ -1,3 +1,11 @@
+2014-12-12, Version 1.1.1
+=========================
+
+ * Fix local deploy logic error (Sam Roberts)
+
+ * package: use debug v2.x in all strongloop deps (Sam Roberts)
+
+
 2014-12-01, Version 1.1.0
 =========================
 
