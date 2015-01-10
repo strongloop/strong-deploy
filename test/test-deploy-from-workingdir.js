@@ -4,6 +4,7 @@ var debug = require('debug')('test');
 var http = require('http');
 var shell = require('shelljs');
 var path = require('path');
+var os = require('os');
 
 var performGitDeployment = require('../lib/git').performGitDeployment;
 
@@ -27,7 +28,7 @@ server.once('listening', function() {
   debug('Server started at: %j', server.address());
   var workingDir = __dirname;
   var baseUrl = 'http://127.0.0.1:' + server.address().port;
-  process.chdir('/tmp');
+  process.chdir(os.tmpdir());
 
   debug('workingDir: %s', workingDir);
   performGitDeployment(workingDir, baseUrl, 'default', 'deploy', function(err) {
