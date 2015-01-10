@@ -1,3 +1,11 @@
+2015-01-10, Version 1.1.2
+=========================
+
+ * Fix wrong output for --version, --help, etc. (Sam Roberts)
+
+ * Fix bad CLA URL in CONTRIBUTING.md (Ryan Graham)
+
+
 2014-12-12, Version 1.1.1
 =========================
 
