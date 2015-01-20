@@ -1,4 +1,10 @@
-2015-01-10, Version 1.1.2
+2015-01-20, Version 1.1.3
+=========================
+
+ * tests: use os.tmpdir() instead of /tmp (Ryan Graham)
+
+
+2015-01-09, Version 1.1.2
 =========================
 
  * Fix wrong output for --version, --help, etc. (Sam Roberts)
