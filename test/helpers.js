@@ -1,4 +1,5 @@
 var assert = require('assert');
+var auth = require('http-auth');
 var cicada = require('strong-fork-cicada');
 var debug = require('debug')('test');
 var http = require('http');
@@ -10,9 +11,15 @@ var artifactDir = path.join(__dirname, '.test_artifacts');
 shell.rm('-rf', artifactDir);
 
 var ci = cicada(artifactDir);
+var allowAll = auth.basic({ realm: 'git' }, alwaysSay(true));
+var denyAll = auth.basic({ realm: 'git' }, alwaysSay(false));
 
 module.exports = exports = {
+  gitServerAllow:  httpServer.bind(null, [allowAll, ci.handle]),
+  gitServerDeny:   httpServer.bind(null, [denyAll, ci.handle]),
   gitServer:       httpServer.bind(null, [ci.handle]),
+  httpServerAllow: httpServer.bind(null, [allowAll]),
+  httpServerDeny:  httpServer.bind(null, [denyAll]),
   httpServer:      httpServer.bind(null, []),
   ok:              false,
 };
@@ -39,5 +46,12 @@ function httpServer(handlers, customHandler, callback) {
   function returnServer() {
     debug('Server started at: %j', server.address());
     callback(server, ci);
+  }
+}
+
+function alwaysSay(result) {
+  return function(user, pass, callback) {
+    debug('HTTP Auth: %s:%s => %s', user, pass, result ? 'ALLOW' : 'DENY');
+    callback(result);
   }
 }

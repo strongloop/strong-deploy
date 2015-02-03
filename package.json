@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "async": "^0.9.0",
+    "http-auth": "^2.2.5",
     "strong-fork-cicada": "^1.1.2",
     "tap": "^0.4.9"
   }
