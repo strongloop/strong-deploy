@@ -21,6 +21,7 @@ module.exports = exports = {
   httpServerAllow: httpServer.bind(null, [allowAll]),
   httpServerDeny:  httpServer.bind(null, [denyAll]),
   httpServer:      httpServer.bind(null, []),
+  assertMatch:     assertMatch,
   ok:              false,
 };
 
@@ -53,5 +54,13 @@ function alwaysSay(result) {
   return function(user, pass, callback) {
     debug('HTTP Auth: %s:%s => %s', user, pass, result ? 'ALLOW' : 'DENY');
     callback(result);
+  }
+}
+
+function assertMatch(actual, expected, message) {
+  actual = actual.toString('utf8');
+  expected = new RegExp(expected);
+  if (!expected.test(actual)) {
+    assert.fail(actual, expected.toString(), message, 'match');
   }
 }
