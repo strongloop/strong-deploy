@@ -3,6 +3,7 @@ var async = require('async');
 var debug = require('debug')('strong-deploy:test');
 var path = require('path');
 var util = require('util');
+var helpers = require('./helpers');
 
 require('shelljs/global');
 
@@ -18,15 +19,6 @@ function deployCli(args, cb) {
   }
   return cb();
 }
-
-// Check for node silently exiting with code 0 when tests have not passed.
-var ok = false;
-
-process.on('exit', function(code) {
-  if (code === 0) {
-    assert(ok);
-  }
-});
 
 function expectError(er) {
   if (er) {
@@ -63,5 +55,5 @@ async.parallel([
 ], function(er, results) {
   debug('test-help: error=%s:', er, results);
   assert.ifError(er);
-  ok = true;
+  helpers.ok = true;
 });

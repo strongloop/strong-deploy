@@ -1,15 +1,9 @@
 var assert = require('assert');
 var childProcess = require('child_process');
-var cicada = require('cicada');
-var debug = require('debug')('test');
-var http = require('http');
 var shell = require('shelljs');
-var getCurrentBranch = require('../lib/git.js')._getCurrentBranch;
+var helpers = require('./helpers');
 
-shell.rm('-rf', '.test_artifacts');
-var ci = cicada('.test_artifacts');
-var server = http.createServer(ci.handle);
-var ok = false;
+var getCurrentBranch = require('../lib/git.js')._getCurrentBranch;
 var currentBranch = getCurrentBranch(process.cwd());
 
 // Ensure that master and production exist as local branches
@@ -23,19 +17,17 @@ if (currentBranch instanceof Error || currentBranch === 'production') {
   pushBranch = 'master';
 }
 
-ci.once('commit', function(commit) {
-  assert(commit.repo === 'repo2');
-  assert(commit.branch === pushBranch);
-  ok = true;
-  server.close();
-});
-
-server.once('listening', function() {
-  debug('Server started at: %j', server.address());
+helpers.gitServer(function(server, ci) {
+  ci.once('commit', assertCommit);
   childProcess.fork(
     require.resolve('../bin/sl-deploy'),
     ['--config', 'repo2', 'http://127.0.0.1:' + server.address().port, pushBranch]
   );
-});
 
-server.listen(0);
+  function assertCommit(commit) {
+    assert(commit.repo === 'repo2');
+    assert(commit.branch === pushBranch);
+    helpers.ok = true;
+    server.close();
+  }
+});

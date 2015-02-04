@@ -4,7 +4,7 @@ var helpers = require('./helpers');
 var shell = require('shelljs');
 
 shell.exec('git branch deploy');
-helpers.gitServer(test);
+helpers.gitServerAllow(test);
 
 function test(server, ci) {
   ci.once('commit', assertCommit);

@@ -1,31 +1,18 @@
 var assert = require('assert');
-var cicada = require('cicada');
 var debug = require('debug')('test');
-var http = require('http');
-var shell = require('shelljs');
-var path = require('path');
+var helpers = require('./helpers');
 var os = require('os');
+var path = require('path');
+var shell = require('shelljs');
 
 var performGitDeployment = require('../lib/git').performGitDeployment;
 
 shell.exec('git branch deploy');
-var artifactDir = path.join(__dirname, '.test_artifacts');
-shell.rm('-rf', artifactDir);
-var ci = cicada(artifactDir);
-var server = http.createServer(ci.handle);
-var ok = false;
 
-ci.once('commit', function(commit) {
-  assert(commit.repo === 'default');
-  var branch = 'deploy';
-  assert(!(branch instanceof Error));
-  assert(commit.branch === branch);
-  ok = true;
-  server.close();
-});
+helpers.gitServer(test);
 
-server.once('listening', function() {
-  debug('Server started at: %j', server.address());
+function test(server, ci) {
+  ci.once('commit', assertCommit);
   var workingDir = __dirname;
   var baseUrl = 'http://127.0.0.1:' + server.address().port;
   process.chdir(os.tmpdir());
@@ -34,6 +21,13 @@ server.once('listening', function() {
   performGitDeployment(workingDir, baseUrl, 'default', 'deploy', function(err) {
     assert.ifError(err);
   });
-});
 
-server.listen(0);
+  function assertCommit(commit) {
+    assert(commit.repo === 'default');
+    var branch = 'deploy';
+    assert(!(branch instanceof Error));
+    assert(commit.branch === branch);
+    helpers.ok = true;
+    server.close();
+  }
+}

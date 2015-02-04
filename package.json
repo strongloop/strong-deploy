@@ -38,8 +38,9 @@
     "posix-getopt": "^1.0.0"
   },
   "devDependencies": {
-    "tap": "^0.4.9",
-    "cicada": "^1.1.1",
-    "async": "^0.9.0"
+    "async": "^0.9.0",
+    "http-auth": "^2.2.5",
+    "strong-fork-cicada": "^1.1.2",
+    "tap": "^0.4.9"
   }
 }
