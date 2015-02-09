@@ -1,3 +1,15 @@
+2015-02-09, Version 1.1.4
+=========================
+
+ * deps: make async a regular dependency (Ryan Graham)
+
+ * Give useful error message when auth is required (Ryan Graham)
+
+ * docs: document implicit support for HTTP auth (Ryan Graham)
+
+ * test: use strong-fork-cicada for tests (Ryan Graham)
+
+
 2015-01-20, Version 1.1.3
 =========================
 
