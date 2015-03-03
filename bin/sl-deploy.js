@@ -33,9 +33,11 @@ while ((option = parser.getopt()) !== undefined) {
     case 'v':
       console.log(require('../package.json').version);
       process.exit(0);
+      break;
     case 'h':
       printHelp($0, console.log);
       process.exit(0);
+      break;
     case 'c':
       config = option.optarg;
       break;

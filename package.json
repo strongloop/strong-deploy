@@ -27,6 +27,8 @@
   "readmeFilename": "README.md",
   "main": "index.js",
   "scripts": {
+    "eslint": "eslint bin lib",
+    "jscs": "jscs bin lib",
     "test": "tap --timeout=300 ./test/test-*.js"
   },
   "bin": {
