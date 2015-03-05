@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
+'use strict';
+
 var Parser = require('posix-getopt').BasicParser;
+var defaults = require('strong-url-defaults');
 var deploy = require('../');
 var fs = require('fs');
 var path = require('path');
@@ -14,8 +17,7 @@ function printHelp($0, prn) {
 }
 
 var argv = process.argv;
-var $0 = process.env.SLC_COMMAND ? 'slc ' +
-process.env.SLC_COMMAND : path.basename(argv[1]);
+var $0 = process.env.CMD ? process.env.CMD : path.basename(argv[1]);
 var parser = new Parser([
     ':v(version)',
     'h(help)',
@@ -53,7 +55,7 @@ while ((option = parser.getopt()) !== undefined) {
 }
 
 var numArgs = argv.length - parser.optind();
-if (numArgs < 1 || numArgs > 2) {
+if (numArgs > 2) {
   console.error('Invalid usage, try `%s --help`.', $0);
   process.exit(1);
 }
@@ -62,7 +64,13 @@ var baseURL = argv[parser.optind()];
 if (numArgs === 2) {
   branchOrPack = argv[parser.optind() + 1];
 }
+baseURL = baseURL || 'http://';
 branchOrPack = branchOrPack || 'deploy';
+
+// Truncate any paths from the baseURL, because the git push does a raw string
+// concatenation of '/<config>', and older versions of deploy allowed paths on
+// the git push.
+baseURL = defaults(baseURL, {host: '127.0.0.1', port: 8701}, {path: '/'});
 
 if (!local)
   deploy(process.cwd(), baseURL, branchOrPack, config, exit);
