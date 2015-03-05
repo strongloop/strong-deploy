@@ -27,8 +27,7 @@
   "readmeFilename": "README.md",
   "main": "index.js",
   "scripts": {
-    "eslint": "eslint bin lib",
-    "jscs": "jscs bin lib",
+    "lint": "eslint bin lib *.js && jscs bin lib *.js",
     "test": "tap --timeout=300 ./test/test-*.js"
   },
   "bin": {
@@ -38,7 +37,8 @@
     "async": "^0.9.0",
     "debug": "^2.0.0",
     "shelljs": "^0.3.0",
-    "posix-getopt": "^1.0.0"
+    "posix-getopt": "^1.0.0",
+    "strong-url-defaults": "^1.0.0"
   },
   "devDependencies": {
     "http-auth": "^2.2.5",

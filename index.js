@@ -1,12 +1,14 @@
+'use strict';
+
 var path = require('path');
 var shell = require('shelljs');
 
-var performGitDeployment = require('./lib/git').performGitDeployment;
-var performHttpPutDeployment = require('./lib/put-file').performHttpPutDeployment;
-var performLocalDeployment = require('./lib/post-json').performLocalDeployment;
+var gitDeployment = require('./lib/git').performGitDeployment;
+var httpPutDeployment = require('./lib/put-file').performHttpPutDeployment;
+var localDeployment = require('./lib/post-json').performLocalDeployment;
 
 module.exports = deploy;
-module.exports.local = performLocalDeployment;
+module.exports.local = localDeployment;
 
 /**
  * Deploy a NPM pack or GIT branch to a strong-pm service
@@ -26,8 +28,8 @@ function deploy(workingDir, baseURL, branchOrPack, config, cb) {
   config = config || 'default';
 
   if (shell.test('-f', path.resolve(branchOrPack))) {
-    return performHttpPutDeployment(baseURL, config, branchOrPack, cb);
+    return httpPutDeployment(baseURL, config, branchOrPack, cb);
   } else {
-    return performGitDeployment(workingDir, baseURL, config, branchOrPack, cb);
+    return gitDeployment(workingDir, baseURL, config, branchOrPack, cb);
   }
 }
