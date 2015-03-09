@@ -3,6 +3,7 @@
 'use strict';
 
 var Parser = require('posix-getopt').BasicParser;
+var debug = require('debug')('strong-deploy');
 var defaults = require('strong-url-defaults');
 var deploy = require('../');
 var fs = require('fs');
@@ -61,9 +62,8 @@ if (numArgs > 2) {
 }
 
 var baseURL = argv[parser.optind()];
-if (numArgs === 2) {
-  branchOrPack = argv[parser.optind() + 1];
-}
+branchOrPack = argv[parser.optind() + 1];
+
 baseURL = baseURL || 'http://';
 branchOrPack = branchOrPack || 'deploy';
 
@@ -71,6 +71,8 @@ branchOrPack = branchOrPack || 'deploy';
 // concatenation of '/<config>', and older versions of deploy allowed paths on
 // the git push.
 baseURL = defaults(baseURL, {host: '127.0.0.1', port: 8701}, {path: '/'});
+
+debug('deploy %j to %j', branchOrPack, baseURL);
 
 if (!local)
   deploy(process.cwd(), baseURL, branchOrPack, config, exit);
