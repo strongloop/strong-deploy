@@ -7,6 +7,7 @@ var debug = require('debug')('strong-deploy');
 var defaults = require('strong-url-defaults');
 var deploy = require('../');
 var fs = require('fs');
+var maybeTunnel = require('strong-tunnel');
 var path = require('path');
 
 function printHelp($0, prn) {
@@ -74,8 +75,26 @@ baseURL = defaults(baseURL, {host: '127.0.0.1', port: 8701}, {path: '/'});
 
 debug('deploy %j to %j', branchOrPack, baseURL);
 
+var sshOpts = {};
+
+if (process.env.SSH_USER) {
+  sshOpts.username = process.env.SSH_USER;
+}
+
+if (process.env.SSH_KEY) {
+  sshOpts.privateKey = fs.readFileSync(process.env.SSH_KEY);
+}
+
+
 if (!local)
-  deploy(process.cwd(), baseURL, branchOrPack, config, exit);
+  maybeTunnel(baseURL, sshOpts, function(err, url) {
+    if (err) {
+      console.error('Error setting up tunnel:', err);
+      return callback(err);
+    }
+    debug('Connecting to %s via %s', baseURL, url);
+    deploy(process.cwd(), url, branchOrPack, config, exit);
+  });
 else
   deploy.local(baseURL, branchOrPack, config, exit);
 
