@@ -10,7 +10,7 @@ prepared using [strong-build](http://github.com/strongloop/strong-build).
 ## Usage
 
 ```
-usage: sl-deploy.js [options] [URL [PACK|BRANCH]]
+usage: sl-deploy [options] [URL [PACK|BRANCH]]
 
 Deploy a node application to a StrongLoop process manager
 
@@ -38,15 +38,19 @@ Note that if PACK or BRANCH is specified, URL *must* be specified as well.
 
 Examples:
 
-Deploy to localhost:
+Deploy 'deploy' branch to localhost:
 
-    sl-deploy.js deploy
+    sl-deploy
 
-Deploy to a remote host:
+Deploy 'deploy' branch to a remote host:
 
-    sl-deploy.js deploy http://prod1.example.com
+    sl-deploy http://prod1.example.com
 
 Deploy to a remote host, on a non-standard port, using authentication:
 
-    sl-deploy.js http://user:pass@prod1.example.com:8765
+    sl-deploy http://user:pass@prod1.example.com:8765
+
+Deploy 'production' branch to localhost:
+
+    sl-deploy http://localhost production
 ```
