@@ -26,14 +26,18 @@ Note that if PACK or BRANCH is specified, URL *must* be specified as well.
 
 Examples:
 
-Deploy to localhost:
+Deploy 'deploy' branch to localhost:
 
-    %MAIN% deploy
+    %MAIN%
 
-Deploy to a remote host:
+Deploy 'deploy' branch to a remote host:
 
-    %MAIN% deploy http://prod1.example.com
+    %MAIN% http://prod1.example.com
 
 Deploy to a remote host, on a non-standard port, using authentication:
 
     %MAIN% http://user:pass@prod1.example.com:8765
+
+Deploy 'production' branch to localhost:
+
+    %MAIN% http://localhost production
