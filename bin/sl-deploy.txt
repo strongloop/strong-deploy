@@ -15,6 +15,14 @@ Arguments:
     If the server requires authentication, the credentials must be part of the
     URL, see examples.
 
+    URL may also use the `http+ssh://` protocol which will connect using ssh
+    and then tunnel the http requests over that connection. The ssh username
+    will default to your current user and authentication defaults to using your
+    current ssh-agent. The username can be overridden by setting an `SSH_USER`
+    environment variable. The authentication can be overridden to use an
+    existing private key instead of an agent by setting the `SSH_KEY`
+    environment variable to the path of the private key to be used.
+
   PACK: Deploy an NPM package/tarball.
 
   BRANCH: Deploy a git branch.
