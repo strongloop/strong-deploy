@@ -1,3 +1,19 @@
+2015-03-16, Version 1.1.5
+=========================
+
+ * cli: update usage text (Ryan Graham)
+
+ * git: show git error message on failure (Ryan Graham)
+
+ * local deploy: tune messaging on failure (Sam Roberts)
+
+ * deploy: URL defaulting to http://localhost:8701 (Sam Roberts)
+
+ * lint: support eslint and jscs (Sam Roberts)
+
+ * Read responses, so request can complete (Sam Roberts)
+
+
 2015-02-09, Version 1.1.4
 =========================
 
