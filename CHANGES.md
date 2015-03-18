@@ -1,3 +1,17 @@
+2015-03-18, Version 1.1.6
+=========================
+
+ * fix error in error handler (Ryan Graham)
+
+ * deps: update dev dependencies (Ryan Graham)
+
+ * deps: fix bad version of strong-tunnel (Ryan Graham)
+
+ * package: update lint for CI (Sam Roberts)
+
+ * Add support for deploying using http over ssh (Ryan Graham)
+
+
 2015-03-16, Version 1.1.5
 =========================
 
