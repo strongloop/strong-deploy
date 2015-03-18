@@ -90,7 +90,7 @@ if (!local)
   maybeTunnel(baseURL, sshOpts, function(err, url) {
     if (err) {
       console.error('Error setting up tunnel:', err);
-      return callback(err);
+      return exit(err);
     }
     debug('Connecting to %s via %s', baseURL, url);
     deploy(process.cwd(), url, branchOrPack, config, exit);
