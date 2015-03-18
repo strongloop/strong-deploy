@@ -43,8 +43,10 @@
     "strong-url-defaults": "^1.0.0"
   },
   "devDependencies": {
+    "eslint": "^0.17.1",
     "http-auth": "^2.2.5",
+    "jscs": "^1.11.3",
     "strong-fork-cicada": "^1.1.2",
-    "tap": "^0.4.9"
+    "tap": "^0.7.1"
   }
 }
