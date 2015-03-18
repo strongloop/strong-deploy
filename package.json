@@ -39,7 +39,7 @@
     "debug": "^2.0.0",
     "posix-getopt": "^1.0.0",
     "shelljs": "^0.3.0",
-    "strong-tunnel": "^1.1.7",
+    "strong-tunnel": "^1.1.1",
     "strong-url-defaults": "^1.0.0"
   },
   "devDependencies": {
