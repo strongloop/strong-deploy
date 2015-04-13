@@ -11,7 +11,10 @@ function test(server, ci) {
 
   childProcess.fork(
     require.resolve('../bin/sl-deploy'),
-    ['http+ssh://127.0.0.1:' + server.address().port]
+    [
+      '--service', 's1',
+      'http+ssh://127.0.0.1:' + server.address().port
+    ]
   );
 
   function assertCommit(commit) {

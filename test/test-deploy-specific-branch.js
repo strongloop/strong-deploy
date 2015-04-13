@@ -21,11 +21,13 @@ helpers.gitServer(function(server, ci) {
   ci.once('commit', assertCommit);
   childProcess.fork(
     require.resolve('../bin/sl-deploy'),
-    ['--config', 'repo2', 'http://127.0.0.1:' + server.address().port, pushBranch]
+    [
+      '--service', 's1',
+      'http://127.0.0.1:' + server.address().port, pushBranch
+    ]
   );
 
   function assertCommit(commit) {
-    assert(commit.repo === 'repo2');
     assert(commit.branch === pushBranch);
     helpers.ok = true;
     server.close();
