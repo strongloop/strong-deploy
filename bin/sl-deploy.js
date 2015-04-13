@@ -66,7 +66,7 @@ var baseURL = argv[parser.optind()];
 branchOrPack = argv[parser.optind() + 1];
 
 baseURL = baseURL || 'http://';
-branchOrPack = branchOrPack || 'deploy';
+branchOrPack = branchOrPack || defaultPackagePath(process.cwd()) || 'deploy';
 
 // Truncate any paths from the baseURL, because the git push does a raw string
 // concatenation of '/<config>', and older versions of deploy allowed paths on
@@ -104,4 +104,22 @@ function exit(err) {
     process.exit(0);
   }
   process.exit(1);
+}
+
+function defaultPackagePath(workingDir) {
+  var packageJsonPath = path.join(workingDir, 'package.json');
+  var tgzPath = null;
+  try {
+    var json = require(packageJsonPath);
+    debug('package.json found: %s', packageJsonPath);
+    tgzPath = path.join('..', json.name + '-' + json.version + '.tgz');
+    if (!fs.existsSync(tgzPath)) {
+      debug('Package tgz not found: %s', tgzPath);
+      return null;
+    }
+  } catch (e) {
+    debug('package.json require failed: %s', packageJsonPath);
+    return null;
+  }
+  return tgzPath;
 }
