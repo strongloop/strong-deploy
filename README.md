@@ -52,18 +52,19 @@ Arguments:
 
   BRANCH: Deploy a git branch.
 
-Default behaviour is to deploy the git branch "deploy" to
-`http://localhost:8701`.
+Default behaviour is to deploy to `http://localhost:8701`. An npm package from
+the parent directory is deployed, if one is found for the current application
+version, otherwise the git branch `deploy` is deployed.
 
 Note that if PACK or BRANCH is specified, URL *must* be specified as well.
 
 Examples:
 
-Deploy 'deploy' branch to localhost:
+Deploy the default npm package or git branch to localhost:
 
     sl-deploy
 
-Deploy 'deploy' branch to a remote host:
+Deploy the default npm package or git branch to a remote host:
 
     sl-deploy http://prod1.example.com
 
