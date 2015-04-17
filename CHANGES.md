@@ -1,3 +1,13 @@
+2015-04-17, Version 1.2.0
+=========================
+
+ * usage: add default npm package to documentation (Setogit)
+
+ * slc deploy, should in non-git, deploy the archive, if it exists (Setogit)
+
+ * Update README for strong-pm.io (Sam Roberts)
+
+
 2015-03-18, Version 1.1.6
 =========================
 
