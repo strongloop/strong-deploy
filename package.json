@@ -1,7 +1,7 @@
 {
   "name": "strong-deploy",
   "description": "Deploy a node application to a StrongLoop process manager",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "keywords": [
     "StrongLoop",
     "build",
@@ -39,6 +39,7 @@
     "debug": "^2.0.0",
     "posix-getopt": "^1.0.0",
     "shelljs": "^0.3.0",
+    "strong-mesh-models": "^6.0.0",
     "strong-tunnel": "^1.1.1",
     "strong-url-defaults": "^1.0.0"
   },

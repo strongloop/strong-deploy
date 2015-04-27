@@ -2,9 +2,12 @@
 
 'use strict';
 
+var MeshClient = require('strong-mesh-models').Client;
 var Parser = require('posix-getopt').BasicParser;
 var debug = require('debug')('strong-deploy');
 var defaults = require('strong-url-defaults');
+var getPackageInfo = require('../lib/package').getPackageInfo;
+var defaultPackagePath = require('../lib/package').getPackagePath;
 var deploy = require('../');
 var fs = require('fs');
 var maybeTunnel = require('strong-tunnel');
@@ -23,14 +26,14 @@ var $0 = process.env.CMD ? process.env.CMD : path.basename(argv[1]);
 var parser = new Parser([
     ':v(version)',
     'h(help)',
-    'c:(config)',
+    's:(service)',
     'L(local)', // Undocumented for now, just for local testing
   ].join(''),
   argv);
 var option;
-var config = 'default';
 var branchOrPack;
 var local;
+var serviceName;
 
 while ((option = parser.getopt()) !== undefined) {
   switch (option.option) {
@@ -42,8 +45,8 @@ while ((option = parser.getopt()) !== undefined) {
       printHelp($0, console.log);
       process.exit(0);
       break;
-    case 'c':
-      config = option.optarg;
+    case 's':
+      serviceName = option.optarg;
       break;
     case 'L':
       local = true;
@@ -62,15 +65,29 @@ if (numArgs > 2) {
   process.exit(1);
 }
 
+var workingDir = process.cwd();
+
+var packageInfo = getPackageInfo(workingDir);
+serviceName = serviceName || (packageInfo ? packageInfo.name : null);
+
+if (!serviceName) {
+  console.error(
+    'Unable to detect service name, package.json has no "name" property.\n' +
+    'Please update your package.json or specify a service name.\n' +
+    'See `%s --help` for more details.', $0
+  );
+  process.exit(1);
+}
+
 var baseURL = argv[parser.optind()];
 branchOrPack = argv[parser.optind() + 1];
 
 baseURL = baseURL || 'http://';
-branchOrPack = branchOrPack || defaultPackagePath(process.cwd()) || 'deploy';
+branchOrPack = branchOrPack || defaultPackagePath(workingDir) || 'deploy';
 
-// Truncate any paths from the baseURL, because the git push does a raw string
-// concatenation of '/<config>', and older versions of deploy allowed paths on
-// the git push.
+// Truncate any paths from the baseURL, because the final path of the URL is
+// dependent on the ID of the service being updated by this deployment.
+// Older versions of deploy use to allow paths on the git push.
 baseURL = defaults(baseURL, {host: '127.0.0.1', port: 8701}, {path: '/'});
 
 debug('deploy %j to %j', branchOrPack, baseURL);
@@ -85,7 +102,6 @@ if (process.env.SSH_KEY) {
   sshOpts.privateKey = fs.readFileSync(process.env.SSH_KEY);
 }
 
-
 if (!local)
   maybeTunnel(baseURL, sshOpts, function(err, url) {
     if (err) {
@@ -93,10 +109,27 @@ if (!local)
       return exit(err);
     }
     debug('Connecting to %s via %s', baseURL, url);
-    deploy(process.cwd(), url, branchOrPack, config, exit);
+    var client = new MeshClient(url);
+    client.serviceFindOrCreate(serviceName, 1, function(err, service) {
+      if (err) {
+        if (err.statusCode === 401) {
+          console.error(
+            'Cannot access remote. If authentication is required,' +
+            ' credentials should be given in the URL.');
+        } else {
+          console.error('Error connecting to server:', err);
+        }
+        return exit(err);
+      }
+      deploy(
+        workingDir, service.getDeployEndpoint(),
+        branchOrPack,
+        exit
+      );
+    });
   });
 else
-  deploy.local(baseURL, branchOrPack, config, exit);
+  deploy.local(baseURL, branchOrPack, exit);
 
 function exit(err) {
   if (!err) {
@@ -104,22 +137,4 @@ function exit(err) {
     process.exit(0);
   }
   process.exit(1);
-}
-
-function defaultPackagePath(workingDir) {
-  var packageJsonPath = path.join(workingDir, 'package.json');
-  var tgzPath = null;
-  try {
-    var json = require(packageJsonPath);
-    debug('package.json found: %s', packageJsonPath);
-    tgzPath = path.join('..', json.name + '-' + json.version + '.tgz');
-    if (!fs.existsSync(tgzPath)) {
-      debug('Package tgz not found: %s', tgzPath);
-      return null;
-    }
-  } catch (e) {
-    debug('package.json require failed: %s', packageJsonPath);
-    return null;
-  }
-  return tgzPath;
 }

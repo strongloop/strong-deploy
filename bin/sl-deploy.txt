@@ -5,9 +5,16 @@ Deploy a node application to a StrongLoop process manager
 Options:
   -h,--help          Print this message and exit.
   -v,--version       Print version and exit.
-  -c,--config CFG    Deploy a specified configuration (default is "default").
+  -s,--service SVC   Deploy to service SVC.
 
 Arguments:
+  SVC: The name or ID of the service on the process manager.
+
+    Defaults to the name of the application specified in the package.json file.
+
+    If a service with that name is not available on the process manager,
+    a new service will be created and the application will be deployed.
+
   URL: The URL of the StrongLoop process manager.
 
     Defaults to `http://localhost:8701`. If a URL is provided, both the host

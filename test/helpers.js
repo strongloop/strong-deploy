@@ -5,6 +5,7 @@ var debug = require('debug')('test');
 var http = require('http');
 var path = require('path');
 var shell = require('shelljs');
+var url = require('url');
 
 var artifactDir = path.join(__dirname, '.test_artifacts');
 
@@ -15,14 +16,15 @@ var allowAll = auth.basic({ realm: 'git' }, alwaysSay(true));
 var denyAll = auth.basic({ realm: 'git' }, alwaysSay(false));
 
 module.exports = exports = {
-  gitServerAllow:  httpServer.bind(null, [allowAll, ci.handle]),
-  gitServerDeny:   httpServer.bind(null, [denyAll, ci.handle]),
-  gitServer:       httpServer.bind(null, [ci.handle]),
+  gitServerAllow:  httpServer.bind(null, [allowAll, findServiceAndHandleCi]),
+  gitServerDeny:   httpServer.bind(null, [denyAll, findServiceAndHandleCi]),
+  gitServer:       httpServer.bind(null, [findServiceAndHandleCi]),
   httpServerAllow: httpServer.bind(null, [allowAll]),
   httpServerDeny:  httpServer.bind(null, [denyAll]),
   httpServer:      httpServer.bind(null, []),
   assertMatch:     assertMatch,
   ok:              false,
+  findServiceAndRunHandler: findServiceAndRunHandler,
 };
 
 // Check for node silently exiting with code 0 when tests have not passed.
@@ -32,10 +34,57 @@ process.on('exit', function(code) {
   }
 });
 
+function findServiceAndRunHandler(handler, req, res) {
+  var reqUrl = url.parse(req.url);
+  debug(reqUrl);
+  switch (reqUrl.pathname.toLowerCase()) {
+    case '/api/services/findone':
+      findService(req, res);
+      break;
+    case '/api/services':
+      createService(req, res);
+      break;
+    default:
+      req.url = req.url.replace('/api/services/1/deploy', '');
+      handler(req, res);
+  }
+}
+
+function findServiceAndHandleCi(req, res) {
+  findServiceAndRunHandler(ci.handle, req, res);
+}
+
+function findService(req, res) {
+  res.writeHead(404, {
+    'Content-Type': 'application/json',
+    'charset': 'utf-8',
+  });
+  res.end(JSON.stringify({
+    error: {
+      name: 'Error',
+      status: 404,
+      message: 'Unknown \"ServerService\" id \"undefined\".',
+      statusCode: 404,
+      code: 'MODEL_NOT_FOUND'
+    }
+  }));
+}
+
+function createService(req, res) {
+  res.end(JSON.stringify({
+    id: 1,
+    _groups: [{id: 1, name: 'g1', scale: 1}]
+  }));
+  res.writeHead(201, {
+    'Content-Type': 'application/json',
+    'charset': 'utf-8',
+  });
+}
+
 function httpServer(handlers, customHandler, callback) {
   if (customHandler) {
     if (callback) {
-      handlers.push(customHandler);
+      handlers.push(findServiceAndRunHandler.bind(null, customHandler));
     } else {
       callback = customHandler;
     }

@@ -11,11 +11,13 @@ function test(server, ci) {
 
   childProcess.fork(
     require.resolve('../bin/sl-deploy'),
-    ['http://any:thin@127.0.0.1:' + server.address().port]
+    [
+      '--service', 's1',
+      'http://any:thin@127.0.0.1:' + server.address().port
+    ]
   );
 
   function assertCommit(commit) {
-    assert(commit.repo === 'default');
     var branch = 'deploy';
     assert(commit.branch === branch);
     helpers.ok = true;

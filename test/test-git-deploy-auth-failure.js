@@ -9,7 +9,10 @@ function test(server, ci) {
   ci.once('commit', assertNoCommit);
   var deploy = childProcess.fork(
     require.resolve('../bin/sl-deploy'),
-    ['http://any:thing@127.0.0.1:' + server.address().port],
+    [
+      '--service', 's1',
+      'http://any:thing@127.0.0.1:' + server.address().port
+    ],
     { env: { GIT_ASKPASS: 'echo' }, silent: true }
   );
   deploy.on('exit', function(code, signal) {
