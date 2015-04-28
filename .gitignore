@@ -1,3 +1,4 @@
+.strong-pm
 *.log
 *.tgz
 node_modules
