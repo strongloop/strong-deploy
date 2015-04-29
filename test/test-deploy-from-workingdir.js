@@ -18,7 +18,7 @@ function test(server, ci) {
   process.chdir(os.tmpdir());
 
   debug('workingDir: %s', workingDir);
-  performGitDeployment(workingDir, baseUrl, 'deploy', function(err) {
+  performGitDeployment(workingDir, baseUrl, 'svc', 'deploy', function(err) {
     assert.ifError(err);
   });
 

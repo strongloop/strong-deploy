@@ -67,6 +67,9 @@ if (numArgs > 2) {
 
 var workingDir = process.cwd();
 
+// XXX(sam) our CWD isn't necessarily the package we are deploying, we should
+// get the package name from the git branch, or the tarball being deployed,
+// or the path being deployed.
 var packageInfo = getPackageInfo(workingDir);
 serviceName = serviceName || (packageInfo ? packageInfo.name : null);
 
@@ -109,27 +112,16 @@ if (!local)
       return exit(err);
     }
     debug('Connecting to %s via %s', baseURL, url);
-    var client = new MeshClient(url);
-    client.serviceFindOrCreate(serviceName, 1, function(err, service) {
-      if (err) {
-        if (err.statusCode === 401) {
-          console.error(
-            'Cannot access remote. If authentication is required,' +
-            ' credentials should be given in the URL.');
-        } else {
-          console.error('Error connecting to server:', err);
-        }
-        return exit(err);
-      }
-      deploy(
-        workingDir, service.getDeployEndpoint(),
-        branchOrPack,
-        exit
-      );
-    });
+    deploy(
+      workingDir,
+      url,
+      serviceName,
+      branchOrPack,
+      exit
+    );
   });
 else
-  deploy.local(baseURL, branchOrPack, exit);
+  deploy.local(baseURL, serviceName, branchOrPack, exit);
 
 function exit(err) {
   if (!err) {

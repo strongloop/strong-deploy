@@ -18,10 +18,10 @@ module.exports.local = localDeployment;
  * @param {string} branchOrPack Name of the GIT branch or path to the NPM pack.
  * @param {function} cb Callback
  */
-function deploy(workingDir, baseURL, branchOrPack, cb) {
+function deploy(workingDir, baseURL, serviceName, branchOrPack, cb) {
   if (shell.test('-f', path.resolve(branchOrPack))) {
-    return httpPutDeployment(baseURL, branchOrPack, cb);
+    return httpPutDeployment(baseURL, serviceName, branchOrPack, cb);
   } else {
-    return gitDeployment(workingDir, baseURL, branchOrPack, cb);
+    return gitDeployment(workingDir, baseURL, serviceName, branchOrPack, cb);
   }
 }
