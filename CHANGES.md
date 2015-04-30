@@ -1,3 +1,13 @@
+2015-04-30, Version 2.0.0
+=========================
+
+ * Support multiapp pm in deploy APIs (Sam Roberts)
+
+ * put-file: report error message from server (Setogit)
+
+ * Add multi-service support (Krishna Raman)
+
+
 2015-04-17, Version 1.2.0
 =========================
 
