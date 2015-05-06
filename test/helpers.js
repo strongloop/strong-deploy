@@ -1,7 +1,7 @@
 var assert = require('assert');
 var auth = require('http-auth');
 var cicada = require('strong-fork-cicada');
-var debug = require('debug')('test');
+var debug = require('debug')('strong-deploy:test');
 var http = require('http');
 var path = require('path');
 var shell = require('shelljs');
@@ -36,8 +36,12 @@ process.on('exit', function(code) {
 
 function findServiceAndRunHandler(handler, req, res) {
   var reqUrl = url.parse(req.url);
-  debug(reqUrl);
+  var path = reqUrl.pathname.toLowerCase();
+  debug('findServiceAndRunHandler: %j path %j', req.url, path);
   switch (reqUrl.pathname.toLowerCase()) {
+    case '/api/api':
+      getApiInfo(req, res);
+      break;
     case '/api/services/findone':
       findService(req, res);
       break;
@@ -48,6 +52,16 @@ function findServiceAndRunHandler(handler, req, res) {
       req.url = req.url.replace('/api/services/1/deploy', '');
       handler(req, res);
   }
+}
+
+function getApiInfo(req, res) {
+  res.writeHead(200, {
+    'Content-Type': 'application/json',
+    'charset': 'utf-8',
+  });
+  res.end(JSON.stringify({
+    apiVersion: require('strong-mesh-models/package.json').version,
+  }));
 }
 
 function findServiceAndHandleCi(req, res) {
