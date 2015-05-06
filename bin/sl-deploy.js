@@ -123,9 +123,10 @@ if (!local)
 else
   deploy.local(baseURL, serviceName, branchOrPack, exit);
 
-function exit(err) {
+function exit(err, service) {
   if (!err) {
-    console.log('Deployed `%s` to `%s`', branchOrPack, baseURL);
+    console.log('Deployed `%s` as `%s` to `%s`',
+                branchOrPack, service.name || service.id, baseURL);
     process.exit(0);
   }
   process.exit(1);
