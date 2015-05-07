@@ -105,8 +105,10 @@ if (process.env.SSH_KEY) {
   sshOpts.privateKey = fs.readFileSync(process.env.SSH_KEY);
 }
 
+exit.url = baseURL;
 if (!local)
   maybeTunnel(baseURL, sshOpts, function(err, url) {
+    exit.url = url;
     if (err) {
       console.error('Error setting up tunnel:', err);
       return exit(err);
@@ -124,10 +126,13 @@ else
   deploy.local(baseURL, serviceName, branchOrPack, exit);
 
 function exit(err, service) {
-  if (!err) {
-    console.log('Deployed `%s` as `%s` to `%s`',
-                branchOrPack, service.name || service.id, baseURL);
+  var svc = service ? (service.name || service.id) : 'unknown';
+  if (err) {
+    console.error('Failed to deploy `%s` as `%s` to `%s` via `%s`',
+                  branchOrPack, svc, baseURL, exit.url);
+    process.exit(1);
+  } else {
+    console.log('Deployed `%s` as `%s` to `%s`', branchOrPack, svc, baseURL);
     process.exit(0);
   }
-  process.exit(1);
 }
