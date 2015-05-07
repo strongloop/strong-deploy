@@ -126,7 +126,7 @@ else
   deploy.local(baseURL, serviceName, branchOrPack, exit);
 
 function exit(err, service) {
-  var svc = service ? (service.name || service.id) : 'unknown';
+  var svc = service ? (service.name || service.id) : serviceName;
   if (err) {
     console.error('Failed to deploy `%s` as `%s` to `%s` via `%s`',
                   branchOrPack, svc, baseURL, exit.url);
