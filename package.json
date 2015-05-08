@@ -28,6 +28,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint . && jscs .",
+    "pretest": "eslint . && jscs .",
     "test": "tap --timeout=300 ./test/test-*.js"
   },
   "bin": {
