@@ -1,3 +1,15 @@
+2015-05-08, Version 2.2.0
+=========================
+
+ * use provided service name in error as fallback (Ryan Graham)
+
+ * print real url in error messages (Ryan Graham)
+
+ * Log name of service that was deployed to (Sam Roberts)
+
+ * deploy: check remote API version compatibility (Sam Roberts)
+
+
 2015-04-30, Version 2.0.0
 =========================
 
