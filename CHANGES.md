@@ -1,3 +1,13 @@
+2015-05-15, Version 2.2.1
+=========================
+
+ * eslint: new doesn't need parentheses (Sam Roberts)
+
+ * package: remove usage from README (Sam Roberts)
+
+ * package: run linters in pretest (Sam Roberts)
+
+
 2015-05-08, Version 2.2.0
 =========================
 
