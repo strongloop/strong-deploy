@@ -2,7 +2,6 @@
 
 'use strict';
 
-var MeshClient = require('strong-mesh-models').Client;
 var Parser = require('posix-getopt').BasicParser;
 var debug = require('debug')('strong-deploy');
 var defaults = require('strong-url-defaults');
