@@ -15,6 +15,9 @@ var ci = cicada(artifactDir);
 var allowAll = auth.basic({ realm: 'git' }, alwaysSay(true));
 var denyAll = auth.basic({ realm: 'git' }, alwaysSay(false));
 
+debug('cicada artifacts %j', artifactDir);
+debug('cwd %j', process.cwd());
+
 module.exports = exports = {
   gitServerAllow:  httpServer.bind(null, [allowAll, findServiceAndHandleCi]),
   gitServerDeny:   httpServer.bind(null, [denyAll, findServiceAndHandleCi]),
@@ -60,7 +63,7 @@ function getApiInfo(req, res) {
     'charset': 'utf-8',
   });
   res.end(JSON.stringify({
-    apiVersion: require('strong-mesh-models/package.json').version,
+    apiVersion: require('strong-mesh-models/package.json').apiVersion,
   }));
 }
 
