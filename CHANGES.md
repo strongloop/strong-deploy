@@ -1,3 +1,11 @@
+2015-06-03, Version 2.2.2
+=========================
+
+ * test: expose mesh model apiVersion, not version (Sam Roberts)
+
+ * Bump mesh-models dependency version (Krishna Raman)
+
+
 2015-05-15, Version 2.2.1
 =========================
 
