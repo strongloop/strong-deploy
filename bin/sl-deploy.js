@@ -26,13 +26,15 @@ var parser = new Parser([
     ':v(version)',
     'h(help)',
     's:(service)',
-    'L(local)', // Undocumented for now, just for local testing
+    'z:(size)',
+    'L(local)' // Undocumented for now, just for local testing
   ].join(''),
   argv);
 var option;
 var branchOrPack;
 var local;
 var serviceName;
+var clusterSize;
 
 while ((option = parser.getopt()) !== undefined) {
   switch (option.option) {
@@ -46,6 +48,9 @@ while ((option = parser.getopt()) !== undefined) {
       break;
     case 's':
       serviceName = option.optarg;
+      break;
+    case 'z':
+      clusterSize = option.optarg;
       break;
     case 'L':
       local = true;
@@ -105,7 +110,7 @@ if (process.env.SSH_KEY) {
 }
 
 exit.url = baseURL;
-if (!local)
+if (!local) {
   maybeTunnel(baseURL, sshOpts, function(err, url) {
     exit.url = url;
     if (err) {
@@ -113,16 +118,24 @@ if (!local)
       return exit(err);
     }
     debug('Connecting to %s via %s', baseURL, url);
-    deploy(
-      workingDir,
-      url,
-      serviceName,
-      branchOrPack,
-      exit
-    );
+    var options = {
+      workingDir: workingDir,
+      baseURL: url,
+      serviceName: serviceName,
+      branchOrPack: branchOrPack,
+      clusterSize: clusterSize,
+    };
+    deploy(options, exit);
   });
-else
-  deploy.local(baseURL, serviceName, branchOrPack, exit);
+} else {
+  var options = {
+    baseURL: baseURL,
+    serviceName: serviceName,
+    branchOrPack: branchOrPack,
+    clusterSize: clusterSize,
+  };
+  deploy.local(options, exit);
+}
 
 function exit(err, service) {
   var svc = service ? (service.name || service.id) : serviceName;
