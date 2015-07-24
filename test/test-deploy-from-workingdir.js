@@ -18,8 +18,15 @@ function test(server, ci) {
   process.chdir(os.tmpdir());
 
   debug('workingDir: %s', workingDir);
-  performGitDeployment(workingDir, baseUrl, 'svc', 'deploy', function(err) {
-    assert.ifError(err);
+  performGitDeployment(
+    {
+      workingDir: workingDir,
+      baseURL: baseUrl,
+      serviceName: 'svc',
+      branchOrPack: 'deploy',
+    },
+    function(err) {
+      assert.ifError(err);
   });
 
   function assertCommit(commit) {

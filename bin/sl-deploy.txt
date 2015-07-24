@@ -6,8 +6,11 @@ Options:
   -h,--help          Print this message and exit.
   -v,--version       Print version and exit.
   -s,--service SVC   Deploy to service SVC.
+  -z,--size SIZE     Set size of cluster to SIZE before deploy.
 
 Arguments:
+  SIZE: A number, n, or the string 'cpus', meaning run a worker per CPU.
+
   SVC: The name or ID of the service on the process manager.
 
     Defaults to the name of the application specified in the package.json file.

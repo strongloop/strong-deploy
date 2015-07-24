@@ -13,15 +13,17 @@ module.exports.local = localDeployment;
 /**
  * Deploy a NPM pack or GIT branch to a strong-pm service
  *
- * @param {string} workingDir The working directory
- * @param {string} baseURL The URL of the service.
+ * @param {string} options.workingDir The working directory
+ * @param {string} options.baseURL The URL of the service.
+ * @param {integer} options.serviceName The name of the service.
+ * @param {integer} options.clusterSize The size of the cluster.
  * @param {string} branchOrPack Name of the GIT branch or path to the NPM pack.
  * @param {function} cb Callback
  */
-function deploy(workingDir, baseURL, serviceName, branchOrPack, cb) {
-  if (shell.test('-f', path.resolve(branchOrPack))) {
-    return httpPutDeployment(baseURL, serviceName, branchOrPack, cb);
+function deploy(options, cb) {
+  if (shell.test('-f', path.resolve(options.branchOrPack))) {
+    return httpPutDeployment(options, cb);
   } else {
-    return gitDeployment(workingDir, baseURL, serviceName, branchOrPack, cb);
+    return gitDeployment(options, cb);
   }
 }
