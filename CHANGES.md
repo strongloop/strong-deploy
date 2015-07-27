@@ -1,3 +1,9 @@
+2015-07-27, Version 3.0.0
+=========================
+
+ * sl-deploy API accept cluster size parameter (Setogit)
+
+
 2015-06-03, Version 2.2.2
 =========================
 
