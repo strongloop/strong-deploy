@@ -1,3 +1,11 @@
+2015-09-09, Version 3.1.0
+=========================
+
+ * docs: add SSH_PORT to usage message (Ryan Graham)
+
+ * set ssh port when use http+ssh deploy via env (SemonCat)
+
+
 2015-07-27, Version 3.0.0
 =========================
 
