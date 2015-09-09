@@ -109,6 +109,10 @@ if (process.env.SSH_KEY) {
   sshOpts.privateKey = fs.readFileSync(process.env.SSH_KEY);
 }
 
+if (process.env.SSH_PORT) {
+  sshOpts.port = process.env.SSH_PORT;
+}
+
 exit.url = baseURL;
 if (!local) {
   maybeTunnel(baseURL, sshOpts, function(err, url) {
