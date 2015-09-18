@@ -20,10 +20,7 @@
     "url": "git://github.com/strongloop/strong-deploy.git"
   },
   "author": "Krishna Raman <kraman@strongloop.com>",
-  "license": {
-    "name": "Dual Artistic/StrongLoop",
-    "url": "https://github.com/strongloop/strong-deploy/blob/master/LICENSE.md"
-  },
+  "license": "Artistic-2.0",
   "readmeFilename": "README.md",
   "main": "index.js",
   "scripts": {
