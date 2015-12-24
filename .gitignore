@@ -3,3 +3,4 @@
 *.tgz
 node_modules
 test/.test_artifacts
+intl/MSG.json
