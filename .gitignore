@@ -4,3 +4,13 @@
 node_modules
 test/.test_artifacts
 intl/MSG.json
+intl/de
+intl/es
+intl/fr
+intl/it
+intl/ja
+intl/ko
+intl/pt
+intl/ru
+intl/zh-Hans
+intl/zh-Hant
