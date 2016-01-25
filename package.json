@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "async": "^0.9.0",
+    "cldr-data": "^28.0.3",
     "concat-stream": "^1.4.7",
     "debug": "^2.0.0",
     "posix-getopt": "^1.0.0",
