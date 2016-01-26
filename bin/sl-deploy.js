@@ -8,8 +8,8 @@ var defaults = require('strong-url-defaults');
 var defaultPackagePath = require('../lib/package').getPackagePath;
 var deploy = require('../');
 var fs = require('fs');
-var getPackageInfo = require('../lib/package').getPackageInfo;
 var g = require('strong-globalize');
+var getPackageInfo = require('../lib/package').getPackageInfo;
 var maybeTunnel = require('strong-tunnel');
 var path = require('path');
 
@@ -82,8 +82,8 @@ serviceName = serviceName || (packageInfo ? packageInfo.name : null);
 if (!serviceName) {
   g.error(
      'Unable to detect service name, {{package.json}} ' +
-     'has no "name" property.\n' +
-     'Please update your package.json or specify a service name.\n' +
+     'has no "{{name}}" property.\n' +
+     'Please update your {{package.json}} or specify a service name.\n' +
      'See {{`%s --help`}} for more details.', $0
    );
   process.exit(1);
