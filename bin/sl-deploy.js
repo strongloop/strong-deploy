@@ -23,13 +23,12 @@ function printHelp($0, prn) {
 var argv = process.argv;
 var $0 = process.env.CMD ? process.env.CMD : path.basename(argv[1]);
 var parser = new Parser([
-    ':v(version)',
-    'h(help)',
-    's:(service)',
-    'z:(size)',
-    'L(local)' // Undocumented for now, just for local testing
-  ].join(''),
-  argv);
+  ':v(version)',
+  'h(help)',
+  's:(service)',
+  'z:(size)',
+  'L(local)' // Undocumented for now, just for local testing
+].join(''), argv);
 var option;
 var branchOrPack;
 var local;
