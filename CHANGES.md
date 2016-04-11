@@ -1,3 +1,16 @@
+2016-04-11, Version 3.1.3
+=========================
+
+ * package: update to eslint@2 (Sam Roberts)
+
+ * Refer to licenses with a link (Sam Roberts)
+
+
+2015-10-01, Version 3.1.2
+=========================
+
+
+
 2015-10-01, Version 3.1.1
 =========================
 
