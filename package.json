@@ -24,7 +24,7 @@
   "readmeFilename": "README.md",
   "main": "index.js",
   "scripts": {
-    "pretest": "eslint .",
+    "pretest": "eslint --ignore-path .gitignore .",
     "test": "tap --timeout=300 ./test/test-*.js"
   },
   "bin": {
@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "eslint": "^2.7.0",
-    "eslint-config-strongloop": "^1.0.2",
+    "eslint-config-strongloop": "^2.0.1",
     "http-auth": "^2.2.5",
     "strong-fork-cicada": "^1.1.2",
     "tap": "^0.7.1"

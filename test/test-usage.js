@@ -6,15 +6,14 @@
 var assert = require('assert');
 var async = require('async');
 var debug = require('debug')('strong-deploy:test');
+var exec = require('shelljs').exec;
 var path = require('path');
 var util = require('util');
 var helpers = require('./helpers');
 
-require('shelljs/global');
-
 function deployCli(args, cb) {
   var cmd = util.format('%s %s',
-    path.resolve('../bin/sl-deploy.js'),
+    path.resolve(__dirname, '../bin/sl-deploy.js'),
     args
   );
   console.log(cmd);

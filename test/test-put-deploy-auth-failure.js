@@ -8,7 +8,7 @@ var childProcess = require('child_process');
 var debug = require('debug')('test');
 var helpers = require('./helpers');
 
-var server = helpers.httpServerDeny(assertNoPut, doPut);
+helpers.httpServerDeny(assertNoPut, doPut);
 
 function assertNoPut(req, res) {
   assert.fail('request', 'none', 'Handler should never see request');

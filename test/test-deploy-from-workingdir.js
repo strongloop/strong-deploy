@@ -7,7 +7,6 @@ var assert = require('assert');
 var debug = require('debug')('test');
 var helpers = require('./helpers');
 var os = require('os');
-var path = require('path');
 var shell = require('shelljs');
 
 var performGitDeployment = require('../lib/git').performGitDeployment;
@@ -32,7 +31,7 @@ function test(server, ci) {
     },
     function(err) {
       assert.ifError(err);
-  });
+    });
 
   function assertCommit(commit) {
     assert(commit.repo === 'default');

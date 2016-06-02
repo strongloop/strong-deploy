@@ -24,14 +24,14 @@ debug('cicada artifacts %j', artifactDir);
 debug('cwd %j', process.cwd());
 
 module.exports = exports = {
-  gitServerAllow:  httpServer.bind(null, [allowAll, findServiceAndHandleCi]),
-  gitServerDeny:   httpServer.bind(null, [denyAll, findServiceAndHandleCi]),
-  gitServer:       httpServer.bind(null, [findServiceAndHandleCi]),
+  gitServerAllow: httpServer.bind(null, [allowAll, findServiceAndHandleCi]),
+  gitServerDeny: httpServer.bind(null, [denyAll, findServiceAndHandleCi]),
+  gitServer: httpServer.bind(null, [findServiceAndHandleCi]),
   httpServerAllow: httpServer.bind(null, [allowAll]),
-  httpServerDeny:  httpServer.bind(null, [denyAll]),
-  httpServer:      httpServer.bind(null, []),
-  assertMatch:     assertMatch,
-  ok:              false,
+  httpServerDeny: httpServer.bind(null, [denyAll]),
+  httpServer: httpServer.bind(null, []),
+  assertMatch: assertMatch,
+  ok: false,
   findServiceAndRunHandler: findServiceAndRunHandler,
 };
 
@@ -65,7 +65,7 @@ function findServiceAndRunHandler(handler, req, res) {
 function getApiInfo(req, res) {
   res.writeHead(200, {
     'Content-Type': 'application/json',
-    'charset': 'utf-8',
+    charset: 'utf-8',
   });
   res.end(JSON.stringify({
     apiVersion: require('strong-mesh-models/package.json').apiVersion,
@@ -79,7 +79,7 @@ function findServiceAndHandleCi(req, res) {
 function findService(req, res) {
   res.writeHead(404, {
     'Content-Type': 'application/json',
-    'charset': 'utf-8',
+    charset: 'utf-8',
   });
   res.end(JSON.stringify({
     error: {
@@ -99,7 +99,7 @@ function createService(req, res) {
   }));
   res.writeHead(201, {
     'Content-Type': 'application/json',
-    'charset': 'utf-8',
+    charset: 'utf-8',
   });
 }
 
@@ -125,7 +125,7 @@ function alwaysSay(result) {
   return function(user, pass, callback) {
     debug('HTTP Auth: %s:%s => %s', user, pass, result ? 'ALLOW' : 'DENY');
     callback(result);
-  }
+  };
 }
 
 function assertMatch(actual, expected, message) {
