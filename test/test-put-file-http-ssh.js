@@ -7,6 +7,12 @@ var assert = require('assert');
 var childProcess = require('child_process');
 var helpers = require('./helpers');
 
+if (/win32/.test(process.platform)) {
+  helpers.ok = true;
+  console.log('TAP version 13\n1..0 # skip ssh tests on Windows');
+  return;
+}
+
 var handler = helpers.findServiceAndRunHandler.bind(null, assertPut);
 var server = helpers.httpServer(handler, doPut);
 
