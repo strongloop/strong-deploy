@@ -9,20 +9,22 @@
 var Parser = require('posix-getopt').BasicParser;
 var debug = require('debug')('strong-deploy');
 var defaults = require('strong-url-defaults');
-var getPackageInfo = require('../lib/package').getPackageInfo;
 var defaultPackagePath = require('../lib/package').getPackagePath;
 var deploy = require('../');
 var fs = require('fs');
+var g = require('strong-globalize');
+var getPackageInfo = require('../lib/package').getPackageInfo;
 var maybeTunnel = require('strong-tunnel');
 var path = require('path');
 
 function printHelp($0, prn) {
-  var USAGE = fs.readFileSync(require.resolve('./sl-deploy.txt'), 'utf-8')
-      .replace(/%MAIN%/g, $0)
-      .trim();
-
+  var USAGE = g.t('sl-deploy.txt')
+    .replace(/%MAIN%/g, $0).
+    trim();
   prn(USAGE);
 }
+
+g.setRootDir(path.resolve(__dirname, '..'));
 
 var argv = process.argv;
 var $0 = process.env.CMD ? process.env.CMD : path.basename(argv[1]);
@@ -59,7 +61,7 @@ while ((option = parser.getopt()) !== undefined) {
       local = true;
       break;
     default:
-      console.error('Invalid usage (near option \'%s\'), try `%s --help`.',
+      g.error('Invalid usage (near option \'%s\'), try {{`%s --help`}}.',
         option.optopt,
         $0);
       process.exit(1);
@@ -68,7 +70,7 @@ while ((option = parser.getopt()) !== undefined) {
 
 var numArgs = argv.length - parser.optind();
 if (numArgs > 2) {
-  console.error('Invalid usage, try `%s --help`.', $0);
+  g.error('Invalid usage, try {{`%s --help`}}.', $0);
   process.exit(1);
 }
 
@@ -81,11 +83,12 @@ var packageInfo = getPackageInfo(workingDir);
 serviceName = serviceName || (packageInfo ? packageInfo.name : null);
 
 if (!serviceName) {
-  console.error(
-    'Unable to detect service name, package.json has no "name" property.\n' +
-    'Please update your package.json or specify a service name.\n' +
-    'See `%s --help` for more details.', $0
-  );
+  g.error(
+     'Unable to detect service name, {{package.json}} ' +
+     'has no "{{name}}" property.\n' +
+     'Please update your {{package.json}} or specify a service name.\n' +
+     'See {{`%s --help`}} for more details.', $0
+   );
   process.exit(1);
 }
 
@@ -121,7 +124,7 @@ if (!local) {
   maybeTunnel(baseURL, sshOpts, function(err, url) {
     exit.url = url;
     if (err) {
-      console.error('Error setting up tunnel:', err);
+      g.error('Error setting up tunnel: %s', err);
       return exit(err);
     }
     debug('Connecting to %s via %s', baseURL, url);
@@ -147,11 +150,11 @@ if (!local) {
 function exit(err, service) {
   var svc = service ? (service.name || service.id) : serviceName;
   if (err) {
-    console.error('Failed to deploy `%s` as `%s` to `%s` via `%s`',
+    g.error('Failed to deploy `%s` as `%s` to `%s` via `%s`',
                   branchOrPack, svc, baseURL, exit.url);
     process.exit(1);
   } else {
-    console.log('Deployed `%s` as `%s` to `%s`', branchOrPack, svc, baseURL);
+    g.log('Deployed `%s` as `%s` to `%s`', branchOrPack, svc, baseURL);
     process.exit(0);
   }
 }

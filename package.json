@@ -32,10 +32,12 @@
   },
   "dependencies": {
     "async": "^0.9.0",
+    "cldr-data": "^28.0.3",
     "concat-stream": "^1.4.7",
     "debug": "^2.0.0",
     "posix-getopt": "^1.0.0",
     "shelljs": "^0.3.0",
+    "strong-globalize": "^1.0.0",
     "strong-mesh-models": "^7.0.0",
     "strong-tunnel": "^1.1.1",
     "strong-url-defaults": "^1.0.0"
