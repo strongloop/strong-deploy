@@ -25,7 +25,9 @@
   "main": "index.js",
   "scripts": {
     "pretest": "eslint --ignore-path .gitignore .",
-    "test": "tap --timeout=300 ./test/test-*.js"
+    "test": "tap --timeout=300 ./test/test-*.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "bin": {
     "sl-deploy": "./bin/sl-deploy.js"
@@ -38,7 +40,8 @@
     "shelljs": "^0.3.0",
     "strong-mesh-models": "^7.0.0",
     "strong-tunnel": "^1.1.1",
-    "strong-url-defaults": "^1.0.0"
+    "strong-url-defaults": "^1.0.0",
+    "snyk": "^1.85.0"
   },
   "devDependencies": {
     "eslint": "^2.7.0",
@@ -46,5 +49,6 @@
     "http-auth": "^2.2.5",
     "strong-fork-cicada": "^1.1.2",
     "tap": "^0.7.1"
-  }
+  },
+  "snyk": true
 }
